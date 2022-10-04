@@ -1,0 +1,36 @@
+<?xml version ="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+<!--    <changeSet id="rls_user" author="pradeep" dbms="postgresql">-->
+<!--        <sql dbms="postgresql" endDelimiter="\$\$">-->
+<!--            CREATE USER ${user} WITH PASSWORD ${password};-->
+<!--            GRANT CONNECT ON DATABASE ${database} TO ${user};-->
+<!--            ALTER DEFAULT PRIVILEGES IN SCHEMA ${schema} GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES-->
+<!--            ON TABLES TO ${user};-->
+<!--            ALTER DEFAULT PRIVILEGES IN SCHEMA ${schema} GRANT USAGE ON SEQUENCES TO ${user};-->
+<!--            ALTER DEFAULT PRIVILEGES IN SCHEMA ${schema} GRANT EXECUTE ON FUNCTIONS TO ${user};-->
+<!--        </sql>-->
+<!--    </changeSet>-->
+    <changeSet id="product1" author="pradeep">
+        <createTable tableName="product">
+        <column name="id" type="bigint" startWith="10">
+            <constraints primaryKey="true" nullable="false"/>
+        </column>
+            <column name="name" type="VARCHAR(255)"/>
+        <column name="tenant_id" type="VARCHAR(30)"/>
+        <column name="version" type="bigint"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="pradut2" author="pradeep">
+        <sql>
+            ALTER TABLE product ENABLE ROW LEVEL SECURITY;
+            DROP POLICY IF EXISTS product_tenant_isolation_policy ON product;
+            CREATE POLICY product_tenant_isolation_policy ON product
+            USING (tenant_id = current_setting('app.tenant_id')::VARCHAR);
+        </sql>
+    </changeSet>
+</databaseChangeLog>

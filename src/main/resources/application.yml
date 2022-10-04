@@ -1,0 +1,31 @@
+server:
+  port: 9090
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  liquibase:
+    enabled: true
+    changeLog: classpath:db/changelog/db.changelog-tenant.xml
+    parameters:
+      database: product
+      schema: public
+      user: rls_user
+      password: admin
+multitenancy:
+  master:
+    datasource:
+      url: jdbc:postgresql://localhost:5432/product
+      username: postgres
+      password: admin
+      hikari:
+        maximum-pool-size: 1
+  tenant:
+    datasource:
+      url: ${multitenancy.master.datasource.url}
+      username: rls_user
+      password: admin
