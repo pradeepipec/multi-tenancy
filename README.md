@@ -11,7 +11,7 @@ gradle assemble
 then start it as an simple java application:
 
 ```
-java -jar target/multi-tenant-service-0-SNAPSHOT.jar
+java -jar target/multi-tenant-0-SNAPSHOT.jar
 ```
 
 ## Testing the Multi Tenant Service
