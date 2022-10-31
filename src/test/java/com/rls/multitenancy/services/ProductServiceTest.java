@@ -1,4 +1,4 @@
-package se.callista.blog.service.services;
+package com.rls.multitenancy.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -8,13 +8,12 @@ import javax.persistence.EntityNotFoundException;
 
 import com.rls.multitenancy.model.ProductValue;
 import com.rls.multitenancy.multitenancy.util.TenantContext;
-import com.rls.multitenancy.services.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import se.callista.blog.service.annotation.SpringBootDbIntegrationTest;
-import se.callista.blog.service.persistence.PostgresqlTestContainer;
+import com.rls.multitenancy.annotation.SpringBootDbIntegrationTest;
+import com.rls.multitenancy.persistence.PostgresqlTestContainer;
 
 @Testcontainers
 @SpringBootDbIntegrationTest
@@ -30,7 +29,7 @@ public class ProductServiceTest {
     @DataSet(value = {"products.yml"})
     public void getProductForTenant1() {
 
-        TenantContext.setTenantId("tenant1");
+        TenantContext.setTenantId(1L);
         ProductValue product = productService.getProduct(1);
         assertThat(product.getName()).isEqualTo("Product 1");
         TenantContext.clear();
@@ -41,7 +40,7 @@ public class ProductServiceTest {
     @DataSet(value = {"products.yml"})
     public void getProductForTenant2() {
 
-        TenantContext.setTenantId("tenant2");
+        TenantContext.setTenantId(1L);
         assertThrows(EntityNotFoundException.class, () -> productService.getProduct(1));
         TenantContext.clear();
 

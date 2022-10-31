@@ -1,4 +1,4 @@
-package se.callista.blog.service.annotation;
+package com.rls.multitenancy.annotation;
 
 import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.junit5.api.DBRider;

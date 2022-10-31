@@ -1,4 +1,4 @@
-package se.callista.blog.service.persistence;
+package com.rls.multitenancy.persistence;
 
 import org.testcontainers.containers.PostgreSQLContainer;
 

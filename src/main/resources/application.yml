@@ -8,6 +8,7 @@ spring:
     hibernate:
       ddl-auto: none
     open-in-view: false
+    show-sql: true
   liquibase:
     enabled: true
     changeLog: classpath:db/changelog/db.changelog-tenant.xml

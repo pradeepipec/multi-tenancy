@@ -23,7 +23,7 @@ import se.callista.blog.service.multitenancy.domain.entity.AbstractBaseEntity;
 public class Product extends AbstractBaseEntity {
 
     @Builder
-    public Product(Long id, String name, Integer version, String tenantId) {
+    public Product(Long id, String name, Integer version, Long tenantId) {
         super(tenantId);
         this.id = id;
         this.name = name;
@@ -31,7 +31,7 @@ public class Product extends AbstractBaseEntity {
     }
 
     @Id
-    @Column(name = "id", unique = true, nullable = false, updatable = false)
+    @Column(name = "id", unique = true,updatable = false)
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     protected Long id;
 

@@ -1,4 +1,4 @@
-package se.callista.blog.service.controller;
+package com.rls.multitenancy.controller;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;

@@ -1,10 +1,10 @@
-package se.callista.blog.service;
+package com.rls.multitenancy;
 
+import com.rls.multitenancy.annotation.SpringBootIntegrationTest;
+import com.rls.multitenancy.persistence.PostgresqlTestContainer;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import se.callista.blog.service.annotation.SpringBootIntegrationTest;
-import se.callista.blog.service.persistence.PostgresqlTestContainer;
 
 @Testcontainers
 @SpringBootIntegrationTest

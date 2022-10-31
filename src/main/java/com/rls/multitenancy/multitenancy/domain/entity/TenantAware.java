@@ -2,7 +2,7 @@ package com.rls.multitenancy.multitenancy.domain.entity;
 
 public interface TenantAware {
 
-    String getTenantId();
+    Long getTenantId();
 
-    void setTenantId(String tenantId);
+    void setTenantId(Long tenantId);
 }

@@ -1,4 +1,4 @@
-package se.callista.blog.service.repository;
+package com.rls.multitenancy.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -7,13 +7,12 @@ import java.util.Optional;
 
 import com.rls.multitenancy.domain.entity.Product;
 import com.rls.multitenancy.multitenancy.util.TenantContext;
-import com.rls.multitenancy.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import se.callista.blog.service.annotation.SpringBootDbIntegrationTest;
-import se.callista.blog.service.persistence.PostgresqlTestContainer;
+import com.rls.multitenancy.annotation.SpringBootDbIntegrationTest;
+import com.rls.multitenancy.persistence.PostgresqlTestContainer;
 
 @Testcontainers
 @SpringBootDbIntegrationTest
@@ -29,7 +28,7 @@ class ProductRepositoryTest {
     @DataSet(value = {"products.yml"})
     public void findByIdForTenant1() {
 
-        TenantContext.setTenantId("tenant1");
+        TenantContext.setTenantId(1L);
         Optional<Product> product = productRepository.findById(1L);
         assertThat(product).isPresent();
         assertThat(product.get().getName()).isEqualTo("Product 1");
@@ -41,7 +40,7 @@ class ProductRepositoryTest {
     @DataSet(value = {"products.yml"})
     public void findByIdForTenant2() {
 
-        TenantContext.setTenantId("tenant2");
+        TenantContext.setTenantId(1L);
         assertThat(productRepository.findById(1L)).isNotPresent();
         TenantContext.clear();
 

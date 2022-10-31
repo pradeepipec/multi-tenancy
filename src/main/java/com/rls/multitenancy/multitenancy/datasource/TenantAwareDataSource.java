@@ -10,8 +10,11 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import static java.util.Objects.nonNull;
 
 /**
  * Tenant-Aware Datasource that decorates Connections with
@@ -37,16 +40,27 @@ public class TenantAwareDataSource extends DelegatingDataSource {
         return getTenantAwareConnectionProxy(connection);
     }
 
-    private void setTenantId(Connection connection) throws SQLException {
-        try (Statement sql = connection.createStatement()) {
-            String tenantId = TenantContext.getTenantId();
-            sql.execute("SET app.tenant_id TO '" + tenantId + "'");
-        }
-    }
+//    private void setTenantId(Connection connection) throws SQLException {
+//        try (Statement sql = connection.createStatement()) {
+//            String tenantId = TenantContext.getTenantId();
+//            sql.execute("SET app.tenant_id TO '" + tenantId + "'");
+//        }
+//    }
 
     private void clearTenantId(Connection connection) throws SQLException {
         try (Statement sql = connection.createStatement()) {
             sql.execute("RESET app.tenant_id");
+        }
+    }
+
+    private void setTenantId(Connection connection) throws SQLException {
+        Long tenantId = TenantContext.getTenantId();
+        if (nonNull(tenantId)) {
+            String sql = "SELECT setTenantContext(?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setLong(1, tenantId);
+                preparedStatement.execute();
+            }
         }
     }
 

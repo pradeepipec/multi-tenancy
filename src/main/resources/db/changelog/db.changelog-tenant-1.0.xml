@@ -17,20 +17,37 @@
 <!--    </changeSet>-->
     <changeSet id="product1" author="pradeep">
         <createTable tableName="product">
-        <column name="id" type="bigint" startWith="10">
-            <constraints primaryKey="true" nullable="false"/>
-        </column>
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
             <column name="name" type="VARCHAR(255)"/>
-        <column name="tenant_id" type="VARCHAR(30)"/>
+        <column name="tenant_id" type="BIGINT"/>
         <column name="version" type="bigint"/>
         </createTable>
     </changeSet>
-    <changeSet id="pradut2" author="pradeep">
+    <changeSet id="product2" author="pradeep">
         <sql>
             ALTER TABLE product ENABLE ROW LEVEL SECURITY;
             DROP POLICY IF EXISTS product_tenant_isolation_policy ON product;
             CREATE POLICY product_tenant_isolation_policy ON product
-            USING (tenant_id = current_setting('app.tenant_id')::VARCHAR);
+            USING (tenant_id = current_setting('app.tenant_id')::BIGINT);
         </sql>
+    </changeSet>
+
+    <changeSet id="product3"  author="pradeep">
+        <createProcedure>
+            CREATE OR REPLACE FUNCTION setTenantContext(tenant_id BIGINT)
+            RETURNS BIGINT AS $$
+            BEGIN
+            PERFORM SET_CONFIG('app.tenant_id', tenant_id::text, FALSE);
+            RETURN tenant_id;
+            END
+            $$
+            LANGUAGE PLPGSQL
+            SECURITY DEFINER;
+        </createProcedure>
+        <rollback>
+            DROP FUNCTION IF EXISTS setAppTenantInDB(BIGINT);
+        </rollback>
     </changeSet>
 </databaseChangeLog>

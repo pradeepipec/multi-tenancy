@@ -39,7 +39,7 @@ public class DataSourceConfiguration {
         return new DataSourceProperties();
     }
 
-    @Bean
+    @Bean(name = "mainDataSource")
     @Primary
     @ConfigurationProperties("multitenancy.tenant.datasource.hikari")
     public DataSource tenantDataSource() {

@@ -1,4 +1,4 @@
-package se.callista.blog.service.annotation;
+package com.rls.multitenancy.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

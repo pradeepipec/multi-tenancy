@@ -22,9 +22,9 @@ public abstract class AbstractBaseEntity implements TenantAware, Serializable {
 
     @Size(max = 30)
     @Column(name = "tenant_id")
-    private String tenantId;
+    private Long tenantId;
 
-    public AbstractBaseEntity(String tenantId) {
+    public AbstractBaseEntity(Long tenantId) {
         this.tenantId = tenantId;
     }
 
